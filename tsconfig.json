@@ -1,0 +1,7 @@
+{
+  "resolveJsonModule": true,
+  "compilerOptions": {
+    "sourceMap": true,
+    "target": "es6"
+  }
+}
