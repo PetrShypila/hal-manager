@@ -1,4 +1,4 @@
-import {IScript} from "../src/common/models";
+import {IScript} from "../../src/main/common/models";
 
 export const script: IScript = {
   defaultLang: "english",

@@ -1,5 +1,5 @@
-import {Dialog, IDialog} from "./dialog/Dialog";
-import {IInputParam, IScript, IUserReply, IUserRequest, Languages} from "./common/models";
+import {Dialog, IDialog} from "../dialog/Dialog";
+import {IInputParam, IScript, IUserReply, IUserRequest, Languages} from "../common/models";
 
 interface ISession {
   readonly script: IScript;
