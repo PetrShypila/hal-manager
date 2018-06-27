@@ -16,7 +16,7 @@ export interface IUserReply {
   sessionId: string;
   expected: string;
   expectationCount: number;
-  received: IInputParam[];
+  received: IDialogScriptParamState[];
 }
 
 export interface IInputParam {
@@ -31,4 +31,8 @@ interface IDialogScript {
 
 export interface IDialogScriptParam {
   name: string;
+}
+
+export interface IDialogScriptParamState extends IDialogScriptParam {
+  requestCount: number;
 }

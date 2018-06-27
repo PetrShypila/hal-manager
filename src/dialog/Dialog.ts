@@ -1,9 +1,16 @@
-import {IDialogScriptParam, IUserReply, IUserRequest} from "./common/models";
+import {
+  IDialogScriptParam,
+  IDialogScriptParamState,
+  IUserReply,
+  IUserRequest,
+} from "../common/models";
+
+import { DialogScriptParamState } from "./DialogParamState";
 
 interface IDialogState {
-  expected: IDialogScriptParam;
-  received: IDialogScriptParam[];
-  waiting: IDialogScriptParam[];
+  expected: IDialogScriptParamState;
+  received: IDialogScriptParamState[];
+  waiting: IDialogScriptParamState[];
 }
 
 export interface IDialog {
@@ -19,15 +26,17 @@ export class Dialog implements IDialog {
   constructor(name: string, params: IDialogScriptParam[]) {
     this.name = name;
     this.state = {
-      expected: { name: "launch" },
+      expected: DialogScriptParamState.launch,
       received: [],
-      waiting: params,
+      waiting: params.map((param) => new DialogScriptParamState(param)),
     };
   }
 
-  public updateState = (request: IUserRequest): IUserReply => {
+  public updateState(request: IUserRequest): IUserReply {
+    this.state.expected.requestCount++;
+
     const reply: IUserReply = {
-      expectationCount: 1,
+      expectationCount: this.state.expected.requestCount,
       expected: this.state.expected.name,
       language: request.language,
       received: [],
@@ -36,7 +45,7 @@ export class Dialog implements IDialog {
 
     request.parameters.forEach((param) => {
       if (this.state.expected.name === param.name) {
-        reply.received.push(param);
+        reply.received.push(this.state.expected);
         this.state.received.push(this.state.expected);
         this.state.expected = this.state.waiting.shift();
       }
@@ -45,7 +54,7 @@ export class Dialog implements IDialog {
         const match = receivedParam.name === param.name;
 
         if (match) {
-          reply.received.push(param);
+          reply.received.push(receivedParam);
         }
 
         return match;
@@ -53,13 +62,17 @@ export class Dialog implements IDialog {
 
       this.state.waiting = this.state.waiting.filter((waitingParam) => {
         if (waitingParam.name === param.name) {
-          reply.received.push(param);
+          reply.received.push(waitingParam);
           return false;
         }
         return true;
       });
+
+      if (this.state.waiting.length === 0) {
+        reply.received.push(DialogScriptParamState.close);
+      }
     });
 
     return reply;
-  };
+  }
 }
