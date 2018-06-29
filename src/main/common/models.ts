@@ -25,7 +25,7 @@ export interface IInputParam {
 }
 
 interface IDialogScript {
-  id: string;
+  name: string;
   params: IDialogScriptParam[];
 }
 

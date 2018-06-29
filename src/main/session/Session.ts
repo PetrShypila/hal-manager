@@ -33,21 +33,24 @@ export class Session implements ISession {
   }
 
   public request = (userRequest: IUserRequest): IUserReply => {
-    const activeDialog = this.state.dialogs[this.state.activeDialogName];
+    const activeDialog = this.getActiveDialog(userRequest);
     return activeDialog.updateState(userRequest);
   };
 
-  private getActiveDialog = (inputParam: IInputParam): IDialog => {
+  private getActiveDialog = (userRequest: IUserRequest): IDialog => {
     const {activeDialogName, dialogs} = this.state;
 
-    if (activeDialogName) {
-      return dialogs[activeDialogName];
-    } else {
-      const newDialogScript = this.script.scripts.find((dialogScript) => dialogScript.id === inputParam.name);
+    if (activeDialogName === undefined) {
+      const newDialogScript
+        = this.script.scripts.find((dialogScript) => dialogScript.name === userRequest.parameters.shift().name);
 
-      this.state.activeDialogName = newDialogScript.id;
-      return new Dialog(newDialogScript.id, newDialogScript.params);
+      dialogs[newDialogScript.name]
+        = new Dialog(newDialogScript.name, newDialogScript.params);
+
+      this.state.activeDialogName = newDialogScript.name;
     }
+
+    return dialogs[this.state.activeDialogName];
   }
 
 }

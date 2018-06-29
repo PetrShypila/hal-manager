@@ -1,10 +1,10 @@
 import {IScript} from "../../src/main/common/models";
 
-export const script: IScript = {
+const script: IScript = {
   defaultLang: "english",
   scripts: [
     {
-      id: "personalData",
+      name: "personalData",
       params: [
         {
           name: "personalName",
@@ -20,4 +20,4 @@ export const script: IScript = {
   ],
 };
 
-
+export default script;

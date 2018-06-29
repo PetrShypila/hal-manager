@@ -4,7 +4,7 @@ export const script: IScript = {
   defaultLang: "english",
   scripts: [
     {
-      id: "personalData",
+      name: "personalData",
       params: [
         {
           name: "personalName",

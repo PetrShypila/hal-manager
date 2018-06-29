@@ -23,16 +23,10 @@ export class SessionManager implements ISessionManager {
   public startSession = (): IUserReply => {
     const sessionId: string = uuid();
     this.sessions[sessionId] = new Session(this.script);
-    return {
-      expectationCount: 1,
-      expected: "sessionStarted",
-      language: this.script.defaultLang,
-      received: [],
-      sessionId,
-    };
+    return this.sessionStarted(sessionId);
   };
 
-  public stopSession = (sessionId: string) => {
+  public closeSession = (sessionId: string) => {
     this.sessions[sessionId] = undefined;
   };
 
@@ -44,4 +38,12 @@ export class SessionManager implements ISessionManager {
       return this.startSession();
     }
   };
+
+  private sessionStarted: (string) => IUserReply = (sessionId) => ({
+    expectationCount: 1,
+    expected: "sessionStarted",
+    language: this.script.defaultLang,
+    received: [],
+    sessionId,
+  });
 }
