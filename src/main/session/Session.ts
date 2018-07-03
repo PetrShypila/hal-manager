@@ -1,5 +1,5 @@
+import {IInputParam, IScript, IUserReply, IUserRequest, Languages} from "alfred-protocols/index";
 import {Dialog, IDialog} from "../dialog/Dialog";
-import {IInputParam, IScript, IUserReply, IUserRequest, Languages} from "../common/models";
 
 interface ISession {
   readonly script: IScript;

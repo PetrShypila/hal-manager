@@ -1,6 +1,6 @@
+import {IScript, IUserReply, IUserRequest} from "alfred-protocols/index";
 import {v4 as uuid} from "uuid";
 import {Session} from "./Session";
-import {IScript, IUserReply, IUserRequest} from "../common/models";
 
 interface ISessionManager {
   script: IScript;

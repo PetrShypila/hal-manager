@@ -1,7 +1,7 @@
 const config = {
-  devtool: "nline-source-map",
+  devtool: "inline-source-map",
 
-  entry: "./src/index.ts",
+  entry: "./src/main/index.ts",
 
   output: {
     filename: "bundle.js",

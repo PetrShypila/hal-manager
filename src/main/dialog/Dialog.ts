@@ -2,8 +2,7 @@ import {
   IDialogScriptParam,
   IDialogScriptParamState,
   IUserReply,
-  IUserRequest,
-} from "../common/models";
+} from "alfred-protocols/index";
 
 import { DialogScriptParamState } from "./DialogParamState";
 
