@@ -24,6 +24,7 @@
   "dependencies": {
     "@types/mocha": "^5.2.3",
     "alfred-protocols": "file:../alfred-protocols",
+    "express": "^4.16.3",
     "uuid": "^3.2.1"
   }
 }

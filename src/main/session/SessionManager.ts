@@ -3,8 +3,9 @@ import {v4 as uuid} from "uuid";
 import {Session} from "./Session";
 
 interface ISessionManager {
-  script: IScript;
-  sessions: ISessionStore;
+  closeSession: (sessionId: string) => void;
+  request: (userRequest: IUserRequest) => IUserReply;
+  startSession: () => IUserReply;
 }
 
 interface ISessionStore {
@@ -12,8 +13,8 @@ interface ISessionStore {
 }
 
 export class SessionManager implements ISessionManager {
-  public sessions: ISessionStore;
-  public script: IScript;
+  private readonly sessions: ISessionStore;
+  private readonly script: IScript;
 
   constructor(script: IScript) {
     this.sessions = {};

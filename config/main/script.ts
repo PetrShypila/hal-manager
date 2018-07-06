@@ -7,13 +7,13 @@ export const script: IScript = {
       name: "personalData",
       params: [
         {
-          name: "personalName",
+          name: "PersonalNameIntent",
         },
         {
-          name: "peselNumber",
+          name: "PeselNumberIntent",
         },
         {
-          name: "age",
+          name: "AgeIntent",
         },
       ],
     },
