@@ -2,7 +2,7 @@ import {
   IDialogScriptParam,
   IDialogScriptParamState,
   IUserReply,
-} from "alfred-protocols/index";
+} from "alfred-protocols";
 
 import { DialogScriptParamState } from "./DialogParamState";
 
@@ -20,6 +20,9 @@ export interface IDialog {
 
 export class Dialog implements IDialog {
 
+  public name: string;
+  public state: IDialogState;
+
   constructor(name: string, params: IDialogScriptParam[]) {
     this.name = name;
     this.state = {
@@ -28,9 +31,6 @@ export class Dialog implements IDialog {
       waiting: params.map((param) => new DialogScriptParamState(param)),
     };
   }
-
-  public name: string;
-  public state: IDialogState;
 
   public updateState: (IUserRequest) => IUserReply = (request) => {
     this.state.expected.requestCount++;

@@ -1,9 +1,9 @@
+import {IUserReply, IUserRequest} from "alfred-protocols";
 import {describe, it} from "mocha";
 import {SessionManager} from "../../main/session/SessionManager";
-import {IUserReply, IUserRequest} from "../../main/common/models";
 
-const assert = require("assert");
-const script = require("../../../config/test/script").default;
+import * as assert from "assert";
+import script from "../../../config/test/script";
 
 describe("Session flow validation", () => {
   const sessionManager: SessionManager = new SessionManager(script);
@@ -21,9 +21,9 @@ describe("Session flow validation", () => {
     assert.deepStrictEqual(userReply.expectationCount, 1);
 
     const mockRequestBody: IUserRequest = {
-      sessionId: userReply.sessionId,
       language: userReply.language,
       parameters: [{name: script.scripts[0].name, value: ""}],
+      sessionId: userReply.sessionId,
     };
 
     const forTest = Object.assign({}, script.scripts[0].params[0]);

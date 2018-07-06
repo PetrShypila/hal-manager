@@ -1,4 +1,4 @@
-import {IScript} from "../../src/main/common/models";
+import {IScript} from "alfred-protocols";
 
 const script: IScript = {
   defaultLang: "english",

@@ -1,4 +1,4 @@
-import {IScript, IUserReply, IUserRequest} from "alfred-protocols/index";
+import {IScript, IUserReply, IUserRequest} from "alfred-protocols";
 import {v4 as uuid} from "uuid";
 import {Session} from "./Session";
 
@@ -39,7 +39,7 @@ export class SessionManager implements ISessionManager {
     }
   };
 
-  private sessionStarted: (string) => IUserReply = (sessionId) => ({
+  private sessionStarted: (s: string) => IUserReply = (sessionId) => ({
     expectationCount: 1,
     expected: "sessionStarted",
     language: this.script.defaultLang,

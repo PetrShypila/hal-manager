@@ -1,4 +1,4 @@
-import {IDialogScriptParam, IDialogScriptParamState} from "alfred-protocols/index";
+import {IDialogScriptParam, IDialogScriptParamState} from "alfred-protocols";
 
 export class DialogScriptParamState implements IDialogScriptParamState {
 

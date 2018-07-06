@@ -1,4 +1,4 @@
-import {IInputParam, IScript, IUserReply, IUserRequest, Languages} from "alfred-protocols/index";
+import {IScript, IUserReply, IUserRequest, Languages} from "alfred-protocols";
 import {Dialog, IDialog} from "../dialog/Dialog";
 
 interface ISession {

@@ -1,7 +1,16 @@
 {
   "resolveJsonModule": true,
   "compilerOptions": {
-    "sourceMap": true,
-    "target": "es6"
-  }
+    "target": "es5",
+    "lib": [ "es6", "dom" ],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "./dist",
+    "rootDirs": [ "src", "config" ],
+    "typeRoots" : ["./node_modules/@types"]
+  },
+  "exclude": [
+    "./.idea",
+    "./node_modules"
+  ]
 }
