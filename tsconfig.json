@@ -1,14 +1,20 @@
 {
   "resolveJsonModule": true,
+  "inlineSource": true,
+  "outDir": "./dist",
   "compilerOptions": {
     "target": "es5",
     "lib": [ "es6", "dom" ],
     "module": "commonjs",
     "moduleResolution": "node",
     "outDir": "./dist",
-    "rootDirs": [ "src", "config" ],
+    "sourceMap": true,
     "typeRoots" : ["./node_modules/@types"]
   },
+  "include": [
+    "src/**/*",
+    "config/**/*"
+  ],
   "exclude": [
     "./.idea",
     "./node_modules"

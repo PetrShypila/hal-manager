@@ -1,11 +1,15 @@
-import {IScript, IUserReply, IUserRequest} from "alfred-protocols";
+import {
+  IApiManagerOutput,
+  IApiNluOutput,
+  IScript,
+} from "alfred-protocols";
 import {v4 as uuid} from "uuid";
 import {Session} from "./Session";
 
 interface ISessionManager {
   closeSession: (sessionId: string) => void;
-  request: (userRequest: IUserRequest) => IUserReply;
-  startSession: () => IUserReply;
+  request: (userRequest: IApiNluOutput) => IApiManagerOutput;
+  startSession: () => IApiManagerOutput;
 }
 
 interface ISessionStore {
@@ -21,7 +25,7 @@ export class SessionManager implements ISessionManager {
     this.script = script;
   }
 
-  public startSession = (): IUserReply => {
+  public startSession = (): IApiManagerOutput => {
     const sessionId: string = uuid();
     this.sessions[sessionId] = new Session(this.script);
     return this.sessionStarted(sessionId);
@@ -31,16 +35,16 @@ export class SessionManager implements ISessionManager {
     this.sessions[sessionId] = undefined;
   };
 
-  public request = (userRequest: IUserRequest): IUserReply => {
-    if (userRequest.sessionId) {
-      const session = this.sessions[userRequest.sessionId];
-      return session.request(userRequest);
+  public request = (request: IApiNluOutput): IApiManagerOutput => {
+    if (request.sessionId) {
+      const session = this.sessions[request.sessionId];
+      return session.request(request);
     } else {
       return this.startSession();
     }
   };
 
-  private sessionStarted: (s: string) => IUserReply = (sessionId) => ({
+  private sessionStarted: (s: string) => IApiManagerOutput = (sessionId) => ({
     expectationCount: 1,
     expected: "sessionStarted",
     language: this.script.defaultLang,

@@ -1,11 +1,16 @@
-import {IScript, IUserReply, IUserRequest, Languages} from "alfred-protocols";
+import {
+  IApiManagerOutput,
+  IApiNluOutput,
+  IScript,
+  Languages,
+} from "alfred-protocols";
 import {Dialog, IDialog} from "../dialog/Dialog";
 
 interface ISession {
   readonly script: IScript;
   readonly defaultLang: Languages;
   state: ISessionState;
-  request: (UserRequestType) => IUserReply;
+  request: (request: IApiNluOutput) => IApiManagerOutput;
 }
 
 interface ISessionState {
@@ -32,17 +37,18 @@ export class Session implements ISession {
     };
   }
 
-  public request = (userRequest: IUserRequest): IUserReply => {
-    const activeDialog = this.getActiveDialog(userRequest);
-    return activeDialog.updateState(userRequest);
+  public request = (request: IApiNluOutput): IApiManagerOutput => {
+    const activeDialog = this.getActiveDialog(request);
+    return activeDialog.updateState(request);
   };
 
-  private getActiveDialog = (userRequest: IUserRequest): IDialog => {
+  private getActiveDialog = (request: IApiNluOutput): IDialog => {
     const {activeDialogName, dialogs} = this.state;
 
     if (activeDialogName === undefined) {
-      const newDialogScript
-        = this.script.scripts.find((dialogScript) => dialogScript.name === userRequest.parameters.shift().name);
+      const newDialogScript = this.script.scripts.find(
+        (dialogScript) => dialogScript.name === request.intents.shift().name,
+      );
 
       dialogs[newDialogScript.name]
         = new Dialog(newDialogScript.name, newDialogScript.params);

@@ -1,7 +1,8 @@
 import {
+  IApiManagerOutput,
+  IApiNluOutput,
   IDialogScriptParam,
   IDialogScriptParamState,
-  IUserReply,
 } from "alfred-protocols";
 
 import { DialogScriptParamState } from "./DialogParamState";
@@ -15,7 +16,7 @@ interface IDialogState {
 export interface IDialog {
   name: string;
   state: IDialogState;
-  updateState: (IUserRequest) => IUserReply;
+  updateState: (request: IApiNluOutput) => IApiManagerOutput;
 }
 
 export class Dialog implements IDialog {
@@ -32,10 +33,10 @@ export class Dialog implements IDialog {
     };
   }
 
-  public updateState: (IUserRequest) => IUserReply = (request) => {
+  public updateState: (request: IApiNluOutput) => IApiManagerOutput = (request) => {
     this.state.expected.requestCount++;
 
-    const reply: IUserReply = {
+    const reply: IApiManagerOutput = {
       expectationCount: this.state.expected.requestCount,
       expected: this.state.expected.name,
       language: request.language,
@@ -43,7 +44,7 @@ export class Dialog implements IDialog {
       sessionId: request.sessionId,
     };
 
-    request.parameters.forEach((param) => {
+    request.intents.forEach((param) => {
       if (this.state.expected.name === param.name) {
         reply.received.push(this.state.expected);
         this.state.received.push(this.state.expected);
