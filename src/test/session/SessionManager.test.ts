@@ -13,7 +13,7 @@ describe("Session flow validation", () => {
 
     assert(userReply.sessionId, "sessionId should be presented in reply");
     assert.deepStrictEqual(script.defaultLang, userReply.language);
-    assert.deepStrictEqual(userReply.expected, "sessionStarted");
+    assert.deepStrictEqual(userReply.expect, "sessionStarted");
     assert.deepStrictEqual(userReply.expectationCount, 1);
 
     const mockRequestBody: IApiNluOutput = {
@@ -25,7 +25,7 @@ describe("Session flow validation", () => {
     const forTest = Object.assign({}, script.scripts[0].params[0]);
     const reply: IApiManagerOutput = sessionManager.request(mockRequestBody);
 
-    assert.deepStrictEqual(reply.expected, forTest.name);
+    assert.deepStrictEqual(reply.expect, forTest.name);
     assert.deepStrictEqual(reply.expectationCount, 1);
   });
 });

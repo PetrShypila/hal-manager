@@ -5,6 +5,7 @@ import {
   Languages,
 } from "alfred-protocols";
 import {Dialog, IDialog} from "../dialog/Dialog";
+import {DialogScriptParamState} from "../dialog/DialogParamState";
 
 interface ISession {
   readonly script: IScript;
@@ -39,7 +40,13 @@ export class Session implements ISession {
 
   public request = (request: IApiNluOutput): IApiManagerOutput => {
     const activeDialog = this.getActiveDialog(request);
-    return activeDialog.updateState(request);
+    const managerOutput = activeDialog.updateState(request);
+
+    if (managerOutput.expect === DialogScriptParamState.close.name) {
+      this.state.activeDialogName = undefined;
+    }
+
+    return managerOutput;
   };
 
   private getActiveDialog = (request: IApiNluOutput): IDialog => {

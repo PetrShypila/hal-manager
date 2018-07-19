@@ -1,4 +1,7 @@
-import {IApiManagerOutput, IApiNluOutput} from "alfred-protocols";
+import {
+  IApiManagerOutput,
+  IApiNluOutput,
+} from "alfred-protocols";
 import * as bodyParser from "body-parser";
 import * as express from "express";
 import {Request, Response} from "express";
@@ -20,6 +23,12 @@ app.get("/", (req: Request, res: Response) => {
 app.post("/session", (req: Request, res: Response) => {
   const userReply: IApiManagerOutput = sessionManager.startSession();
   res.send(userReply).status(201);
+});
+
+app.delete("/session", (req: Request, res: Response) => {
+  const userRequest: IApiNluOutput = req.body;
+  sessionManager.closeSession(userRequest.sessionId);
+  res.status(204);
 });
 
 app.put("/request", (req: Request, res: Response) => {

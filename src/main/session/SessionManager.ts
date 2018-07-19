@@ -45,8 +45,8 @@ export class SessionManager implements ISessionManager {
   };
 
   private sessionStarted: (s: string) => IApiManagerOutput = (sessionId) => ({
+    expect: "sessionStarted",
     expectationCount: 1,
-    expected: "sessionStarted",
     language: this.script.defaultLang,
     received: [],
     sessionId,

@@ -17,6 +17,17 @@ export const script: IScript = {
         },
       ],
     },
+    {
+      name: "CallBackScript",
+      params: [
+        {
+          name: "PersonalNameIntent",
+        },
+        {
+          name: "PhoneNumberIntent",
+        },
+      ],
+    },
   ],
 };
 

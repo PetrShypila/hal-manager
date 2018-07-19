@@ -34,27 +34,32 @@ export class Dialog implements IDialog {
   }
 
   public updateState: (request: IApiNluOutput) => IApiManagerOutput = (request) => {
-    this.state.expected.requestCount++;
+    request = this.preprocess(request);
 
     const reply: IApiManagerOutput = {
-      expectationCount: this.state.expected.requestCount,
-      expected: this.state.expected.name,
+      expect: undefined,
+      expectationCount: undefined,
       language: request.language,
       received: [],
       sessionId: request.sessionId,
     };
 
     request.intents.forEach((param) => {
+      // Update expected param
       if (this.state.expected.name === param.name) {
+        this.state.expected.value.push(...param.value);
         reply.received.push(this.state.expected);
         this.state.received.push(this.state.expected);
-        this.state.expected = this.state.waiting.shift();
+        this.state.expected = undefined;
+        return;
       }
 
+      // Check already received params for an update
       this.state.received.some((receivedParam) => {
         const match = receivedParam.name === param.name;
-
+        // If param has been updated
         if (match) {
+          receivedParam.value.push(...param.value);
           reply.received.push(receivedParam);
         }
 
@@ -63,17 +68,54 @@ export class Dialog implements IDialog {
 
       this.state.waiting = this.state.waiting.filter((waitingParam) => {
         if (waitingParam.name === param.name) {
+          waitingParam.value.push(...waitingParam.value);
           reply.received.push(waitingParam);
           return false;
         }
         return true;
       });
-
-      if (this.state.waiting.length === 0) {
-        reply.received.push(DialogScriptParamState.close);
-      }
     });
 
+    if (this.state.waiting.length === 0) {
+      reply.expect = DialogScriptParamState.close.name;
+      reply.expectationCount = DialogScriptParamState.close.requestCount;
+    } else {
+      if (this.state.expected === undefined) {
+        this.state.expected = this.state.waiting.shift();
+      }
+      this.state.expected.requestCount += 1;
+      reply.expect = this.state.expected.name;
+      reply.expectationCount = this.state.expected.requestCount;
+    }
+
     return reply;
-  }
+  };
+
+  private preprocess: (request: IApiNluOutput) => IApiNluOutput = (request) => {
+    console.log(`Preprocessing. Expecting: ${this.state.expected.name}`);
+
+    switch (this.state.expected.name) {
+      case "PeselNumberIntent": {
+        const intentIdx =
+          request.intents.findIndex((intent) => intent.name === "NumberIntent");
+        if (intentIdx >= 0) {
+          console.log("Found NumberIntent. Converting it to PeselNumberIntent");
+          request.intents[intentIdx].name = "PeselNumberIntent";
+        }
+        break;
+      }
+
+      case "AgeIntent": {
+        const intentIdx =
+          request.intents.findIndex((intent) => intent.name === "NumberIntent");
+        if (intentIdx >= 0) {
+          console.log("Found NumberIntent. Converting it to AgeIntent");
+          request.intents[intentIdx].name = "AgeIntent";
+        }
+        break;
+      }
+    }
+
+    return request;
+  };
 }
