@@ -4,6 +4,8 @@ import {
   IScript,
 } from "alfred-protocols";
 import {v4 as uuid} from "uuid";
+
+import logger from "../log/logger";
 import {Session} from "./Session";
 
 interface ISessionManager {
@@ -37,9 +39,11 @@ export class SessionManager implements ISessionManager {
 
   public request = (request: IApiNluOutput): IApiManagerOutput => {
     if (request.sessionId) {
+      logger.debug(`Requesting session: ${request.sessionId}`);
       const session = this.sessions[request.sessionId];
       return session.request(request);
     } else {
+      logger.debug("Creating new session");
       return this.startSession();
     }
   };
