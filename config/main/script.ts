@@ -1,4 +1,4 @@
-import {IScript} from "alfred-protocols";
+import {IScript} from "hal-protocols";
 
 export const script: IScript = {
   defaultLang: "english",

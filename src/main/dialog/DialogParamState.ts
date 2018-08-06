@@ -1,7 +1,7 @@
 import {
   IDialogScriptParam,
   IDialogScriptParamState,
-} from "alfred-protocols";
+} from "hal-protocols";
 
 export class DialogScriptParamState implements IDialogScriptParamState {
 

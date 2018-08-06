@@ -3,7 +3,7 @@ import {
   IApiNluOutput,
   IDialogScriptParam,
   IDialogScriptParamState,
-} from "alfred-protocols";
+} from "hal-protocols";
 
 import logger from "../log/logger";
 import { DialogScriptParamState } from "./DialogParamState";

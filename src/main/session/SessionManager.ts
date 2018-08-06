@@ -2,7 +2,7 @@ import {
   IApiManagerOutput,
   IApiNluOutput,
   IScript,
-} from "alfred-protocols";
+} from "hal-protocols";
 import {v4 as uuid} from "uuid";
 
 import logger from "../log/logger";

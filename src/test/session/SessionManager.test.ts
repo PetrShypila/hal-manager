@@ -1,4 +1,4 @@
-import {IApiManagerOutput, IApiNluOutput} from "alfred-protocols";
+import {IApiManagerOutput, IApiNluOutput} from "hal-protocols";
 import {describe, it} from "mocha";
 import {SessionManager} from "../../main/session/SessionManager";
 
