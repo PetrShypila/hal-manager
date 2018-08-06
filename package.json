@@ -1,5 +1,5 @@
 {
-  "name": "alfred",
+  "name": "hal",
   "version": "0.0.1",
   "description": "Dialog manager of Alfred voice assistant",
   "repository": "https://github.com/PetrShypila/alfred-manager",
@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@types/mocha": "^5.2.3",
-    "alfred-protocols": "file:../alfred-protocols",
+    "alfred-protocols": "file:../hal-protocols",
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
     "moment": "^2.22.2",
